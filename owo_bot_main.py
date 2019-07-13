@@ -3,6 +3,7 @@ import telegram
 import sys
 from telegram.ext import (Updater, CommandHandler, MessageHandler,
                           Filters)
+from owoify import owoify
 
 # Setting up the logger
 logging.basicConfig(level=logging.DEBUG,
@@ -39,7 +40,7 @@ def start(update, context):
 
 def echo(update, context):
     context.bot.send_message(chat_id=update.message.chat_id,
-                             text=update.message.text)
+                             text=owoify(update.message.text))
 
 # Handlers go here
 start_handler = CommandHandler('start', start)
