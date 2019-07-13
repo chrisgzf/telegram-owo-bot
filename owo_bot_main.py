@@ -1,8 +1,9 @@
 import logging
 import telegram
 import sys
+from telegram import (InlineQueryResultArticle, InputTextMessageContent)
 from telegram.ext import (Updater, CommandHandler, MessageHandler,
-                          Filters)
+                          InlineQueryHandler, Filters)
 from owoify import owoify
 
 # Setting up the logger
@@ -48,6 +49,24 @@ echo_handler = MessageHandler(Filters.text, echo)
 
 dispatcher.add_handler(start_handler)
 dispatcher.add_handler(echo_handler)
+
+# Setting up inline queries
+def inline_owoify(update, context):
+    query = update.inline_query.query
+    if not query:
+        return
+    results = list()
+    results.append(
+        InlineQueryResultArticle(
+            id=owoify(query),
+            title='OwOified Text',
+            input_message_content=InputTextMessageContent(owoify(query))
+        )
+    )
+    context.bot.answer_inline_query(update.inline_query.id, results)
+
+inline_owoify_handler = InlineQueryHandler(inline_owoify)
+dispatcher.add_handler(inline_owoify_handler)
 
 # Start polling the bot
 updater.start_polling()
