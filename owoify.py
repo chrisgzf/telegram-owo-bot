@@ -4,7 +4,8 @@ import random
 # owoification code taken from
 # https://gist.github.com/jtvjan/1308479db62d6132d80b0180bcbff08f
 
-faces=["(・`ω´・)",";;w;;","owo","UwU",">w<","^w^"];
+faces=["(・`ω´・)","(｡•́︿•̀｡)","OwO","UwU","(｡T ω T｡)","(・_・;)", "┌∩┐(◣_◢)┌∩┐",
+       "( ` ω ´ )"];
 
 def _repl_1(m):
     return f"ny{m.group(1)}"

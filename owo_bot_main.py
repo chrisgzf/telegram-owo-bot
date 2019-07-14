@@ -1,6 +1,6 @@
 import logging
 import sys
-from telegram import (InlineQueryResultArticle, InputTextMessageContent)
+from telegram import (InlineQueryResultArticle, InputTextMessageContent, ParseMode)
 from telegram.ext import (Updater, CommandHandler, MessageHandler,
                           InlineQueryHandler, Filters)
 from owoify import owoify
@@ -26,11 +26,18 @@ updater = Updater(token=BOT_TOKEN, use_context=True)
 dispatcher = updater.dispatcher
 
 # Long pre-defined messages go here
-START_MESSAGE = ("Welcome to the OwO Bot!\n\n"
-                 "This bot was created to help you owoify text.\n"
-                 "If you would like to contribute to the development "
-                 "of this bot, please visit "
-                 "https://github.com/chrisgzf/telegram-owo-bot.")
+START_MESSAGE = ("_UwU_... Nice to meet you {}-sama!\n\n"
+                 "I am here to help you owoify text!\n\n"
+                 "*Functions:*\n"
+                 "1. Inline query: In any conversation (group or "
+                 "individual), just type `@OwoifyBot` and I can owoify text "
+                 "anywhere (even groups I'm not in)!\n"
+                 "2. Just PM me and I can owoify whatever you "
+                 "say!\n"
+                 "3. Group messages: reply to any group message with `/owo`\n\n"
+                 "To contribute to the development "
+                 "of this bot, please [click here]"
+                 "(https://github.com/chrisgzf/telegram-owo-bot).")
 
 
 # Handling functions go here
@@ -40,8 +47,11 @@ def start(update, context):
         username = update.message.from_user["username"]
     except:
         username = userid
+    firstname = update.message.from_user["first_name"]
     context.bot.send_message(chat_id=update.message.chat_id,
-                             text=START_MESSAGE)
+                             text=START_MESSAGE.format(firstname),
+                             disable_web_page_preview=True,
+                             parse_mode=ParseMode.MARKDOWN)
     logger.info(f"{username} {userid}: /start")
 
 
@@ -53,7 +63,8 @@ def echo(update, context):
         username = userid
     text = update.message.text
     context.bot.send_message(chat_id=update.message.chat_id,
-                             text=owoify(text))
+                             text=owoify(text),
+                             disable_web_page_preview=True)
     logger.info(f"{username} {userid}: {text}")
 
 
@@ -72,7 +83,9 @@ def owo(update, context):
                                       " (｡•́︿•̀｡)"))
         return
     context.bot.send_message(chat_id=update.message.chat_id,
-                             text=owoify(text))
+                             text=owoify(text),
+                             reply_to_message_id=update.message.reply_to_message.id,
+                             disable_web_page_preview=True)
     logger.info(f"{username} {userid} GROUP: {text}")
 
 
