@@ -84,7 +84,7 @@ def owo(update, context):
         return
     context.bot.send_message(chat_id=update.message.chat_id,
                              text=owoify(text),
-                             reply_to_message_id=update.message.reply_to_message.id,
+                             reply_to_message_id=update.message.reply_to_message.message_id,
                              disable_web_page_preview=True)
     logger.info(f"{username} {userid} GROUP: {text}")
 
