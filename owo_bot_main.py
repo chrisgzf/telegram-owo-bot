@@ -7,8 +7,7 @@ from owoify import owoify
 
 # Setting up the logger
 logging.basicConfig(level=logging.DEBUG,
-                    format=('%(asctime)s - %(name)s - %(levelname)s'
-                            ' - %(message)s'))
+                    format=('%(asctime)s %(levelname)s: %(message)s'))
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
@@ -36,13 +35,26 @@ START_MESSAGE = ("Welcome to the OwO Bot!\n\n"
 
 # Handling functions go here
 def start(update, context):
+    userid = update.message.from_user["id"]
+    try:
+        username = update.message.from_user["username"]
+    except:
+        username = userid
     context.bot.send_message(chat_id=update.message.chat_id,
                              text=START_MESSAGE)
+    logger.info(f"{username} {userid}: /start")
 
 
 def echo(update, context):
+    userid = update.message.chat_id
+    try:
+        username = update.message.from_user["username"]
+    except:
+        username = userid
+    text = update.message.text
     context.bot.send_message(chat_id=update.message.chat_id,
-                             text=owoify(update.message.text))
+                             text=owoify(text))
+    logger.info(f"{username} {userid}: {text}")
 
 
 # Handlers go here
@@ -58,15 +70,20 @@ def inline_owoify(update, context):
     query = update.inline_query.query
     if not query:
         return
+    userid = update.effective_user.id
+    username = update.effective_user.username
+    logger.info(f"{username} {userid} INLINE: {query}")
     results = list()
     results.append(
         InlineQueryResultArticle(
-            id=owoify(query),
-            title='OwOified Text',
+            id=0,
+            title='Owoified Text',
             input_message_content=InputTextMessageContent(owoify(query))
         )
     )
-    context.bot.answer_inline_query(update.inline_query.id, results)
+    context.bot.answer_inline_query(update.inline_query.id,
+                                    results,
+                                    cache_time=0)
 
 
 inline_owoify_handler = InlineQueryHandler(inline_owoify)
