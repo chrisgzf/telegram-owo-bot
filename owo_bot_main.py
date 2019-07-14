@@ -77,7 +77,9 @@ def inline_owoify(update, context):
     results.append(
         InlineQueryResultArticle(
             id=0,
-            title='Owoified Text',
+            title='Owoified Text Preview (press to send)',
+            description=owoify(query),
+            thumb_url='https://avatarfiles.alphacoders.com/161/161188.png',
             input_message_content=InputTextMessageContent(owoify(query))
         )
     )
