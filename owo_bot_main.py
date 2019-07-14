@@ -1,5 +1,4 @@
 import logging
-import telegram
 import sys
 from telegram import (InlineQueryResultArticle, InputTextMessageContent)
 from telegram.ext import (Updater, CommandHandler, MessageHandler,
@@ -34,14 +33,17 @@ START_MESSAGE = ("Welcome to the OwO Bot!\n\n"
                  "of this bot, please visit "
                  "https://github.com/chrisgzf/telegram-owo-bot.")
 
+
 # Handling functions go here
 def start(update, context):
     context.bot.send_message(chat_id=update.message.chat_id,
                              text=START_MESSAGE)
 
+
 def echo(update, context):
     context.bot.send_message(chat_id=update.message.chat_id,
                              text=owoify(update.message.text))
+
 
 # Handlers go here
 start_handler = CommandHandler('start', start)
@@ -49,6 +51,7 @@ echo_handler = MessageHandler(Filters.text, echo)
 
 dispatcher.add_handler(start_handler)
 dispatcher.add_handler(echo_handler)
+
 
 # Setting up inline queries
 def inline_owoify(update, context):
@@ -64,6 +67,7 @@ def inline_owoify(update, context):
         )
     )
     context.bot.answer_inline_query(update.inline_query.id, results)
+
 
 inline_owoify_handler = InlineQueryHandler(inline_owoify)
 dispatcher.add_handler(inline_owoify_handler)
