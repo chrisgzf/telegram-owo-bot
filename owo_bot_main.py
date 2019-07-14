@@ -57,11 +57,32 @@ def echo(update, context):
     logger.info(f"{username} {userid}: {text}")
 
 
+def owo(update, context):
+    userid = update.message.chat_id
+    try:
+        username = update.message.from_user["username"]
+    except:
+        username = userid
+    try:
+        text = update.message.reply_to_message.text
+    except Exception as e:
+        context.bot.send_message(chat_id=update.message.chat_id,
+                                 text=("Bbb..but master-sama, you need to reply to a message! "
+                                      "I have no idea what text you want to be owoified..."
+                                      " (｡•́︿•̀｡)"))
+        return
+    context.bot.send_message(chat_id=update.message.chat_id,
+                             text=owoify(text))
+    logger.info(f"{username} {userid} GROUP: {text}")
+
+
 # Handlers go here
 start_handler = CommandHandler('start', start)
+owo_handler = CommandHandler('owo', owo)
 echo_handler = MessageHandler(Filters.text, echo)
 
 dispatcher.add_handler(start_handler)
+dispatcher.add_handler(owo_handler)
 dispatcher.add_handler(echo_handler)
 
 
