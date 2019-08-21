@@ -34,7 +34,7 @@ START_MESSAGE = ("_UwU_... Nice to meet you {}-sama!\n\n"
                  "anywhere (even groups I'm not in)!\n"
                  "2. Just PM me and I can owoify whatever you "
                  "say!\n"
-                 "3. Group messages: reply to any group message with `/owo`\n\n"
+                 "3. (broken at the moment - please be patient!) Group messages: reply to any group message with `/owo`\n\n"
                  "To contribute to the development "
                  "of this bot, please [click here]"
                  "(https://github.com/chrisgzf/telegram-owo-bot).")
